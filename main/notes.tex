@@ -1,0 +1,573 @@
+\documentclass[a4paper,12pt]{report}
+
+\title{Notes de lecture de Homotopy Type Theory}
+\author{Eliott Paquet}
+\date{\today}
+\setcounter{section}{1}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{geometry}
+\geometry{hmargin=1.5cm,vmargin=1.5cm}
+
+\usepackage{amssymb,amsmath}
+\usepackage{mathtools}
+
+\usepackage{tkz-tab}
+
+\usepackage{tikz}
+\usetikzlibrary{patterns,angles,quotes,arrows,arrows.meta,bending,matrix,calc}
+
+\usepackage{enumitem}
+
+\usepackage{newtxmath}
+\DeclareSymbolFont{CMletters}{OML}{cmm}{m}{it}
+\DeclareMathSymbol{\nu}{\mathord}{CMletters}{23}
+
+\usepackage[hypertexnames=false]{hyperref}
+\hypersetup{colorlinks=false,linktoc=all}
+
+\usepackage{stmaryrd}
+
+\usepackage{epigraph}
+
+\usepackage{minitoc}
+\mtcselectlanguage{french}
+\setcounter{minitocdepth}{6}
+\makeatletter
+\newcommand{\minitocromain}{
+  {
+    \let\oldthesection\thesection
+    \let\oldthesubsection\thesubsection
+    \let\oldthesubsubsection\thesubsubsection
+    \renewcommand{\thesection}{\Roman{chapter}.\arabic{section}}
+    \renewcommand{\thesubsection}{\Roman{chapter}.\arabic{section}.\arabic{subsection}}
+    \renewcommand{\thesubsubsection}{\Roman{chapter}.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+    \minitoc
+  }
+}
+\makeatother
+
+\usepackage{siunitx}
+\sisetup{
+locale=FR,
+detect-all,
+inter-unit-product=\ensuremath{\cdot},
+list-final-separator={et},
+list-pair-separator={et},
+range-phrase={\ensuremath{\xleftrightarrow{}}},
+exponent-product=\ensuremath{\cdot},
+per-mode=power-positive-first
+}
+
+\usepackage[thmmarks,hyperref]{ntheorem}
+\makeatletter
+\let\old@thm\@thm
+\usepackage[lowercase]{theoremref}
+\def\@thm#1#2#3{\def\thmref@currname{#3}\old@thm{#1}{#2}{#3}}
+\makeatother
+
+\usepackage{dsfont}
+
+\usepackage{needspace}
+
+\usepackage{nicefrac}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\addtolength{\jot}{0.5em}
+
+\allowdisplaybreaks[1]
+
+\mathcode`;=\numexpr\mathcode`;-"3000
+
+\newcommand{\paren}[1]{\left(#1\right)} 
+\newcommand{\croch}[1]{\left[#1\right]} 
+\newcommand{\accol}[1]{\left\lbrace#1\right\rbrace} 
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert} 
+\newcommand{\norme}[1]{\left\|#1\right\|} 
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor} 
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil} 
+
+\newcommand{\intervii}[2]{\left[#1;#2\right]} 
+\newcommand{\intervee}[2]{\left]#1;#2\right[} 
+\newcommand{\intervie}[2]{\left[#1;#2\right[} 
+\newcommand{\intervei}[2]{\left]#1;#2\right]} 
+\newcommand{\interventierii}[2]{\left\llbracket#1;#2\right\rrbracket} 
+\newcommand{\interventieree}[2]{\left\rrbracket#1;#2\right\llbracket} 
+\newcommand{\interventierie}[2]{\left\llbracket#1;#2\right\llbracket} 
+\newcommand{\interventierei}[2]{\left\rrbracket#1;#2\right\rrbracket} 
+
+
+\let\oldPi\Pi
+\renewcommand{\Pi}{\mathop{\oldPi}\limits}
+
+
+\newcommand{\N}{\mathbb{N}} 
+\newcommand{\Ns}{\mathbb{N}^*}
+
+\newcommand{\Z}{\mathbb{Z}} 
+\newcommand{\Zp}{\mathbb{Z}_+}
+\newcommand{\Zs}{\mathbb{Z}^*}
+\newcommand{\Zps}{\mathbb{Z}_+^*}
+\newcommand{\Zm}{\mathbb{Z}_-}
+\newcommand{\Zms}{\mathbb{Z}_-^*}
+
+\newcommand{\D}{\mathbb{D}} 
+\newcommand{\Dp}{\mathbb{D}_+}
+\newcommand{\Dm}{\mathbb{D}_-}
+\newcommand{\Ds}{\mathbb{D}^*}
+\newcommand{\Dps}{\mathbb{D}_+^*}
+\newcommand{\Dms}{\mathbb{D}_-^*}
+
+\newcommand{\Q}{\mathbb{Q}} 
+\newcommand{\Qp}{\mathbb{Q}_+}
+\newcommand{\Qm}{\mathbb{Q}_-}
+\newcommand{\Qs}{\mathbb{Q}^*}
+\newcommand{\Qps}{\mathbb{Q}_+^*}
+\newcommand{\Qms}{\mathbb{Q}_-^*}
+
+\newcommand{\R}{\mathbb{R}} 
+\newcommand{\Rp}{\mathbb{R}_+}
+\newcommand{\Rm}{\mathbb{R}_-}
+\newcommand{\Rs}{\mathbb{R}^*}
+\newcommand{\Rps}{\mathbb{R}_+^*}
+\newcommand{\Rms}{\mathbb{R}_-^*}
+\newcommand{\Rb}{\overline{\mathbb{R}}}
+
+\newcommand{\C}{\mathbb{C}} 
+\newcommand{\Cs}{\mathbb{C}^*}
+
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\Ks}{\mathbb{K}^*}
+
+\renewcommand{\L}[2]{\mathscr{L}\paren{#1,#2}}
+\newcommand{\Lendo}[1]{\mathscr{L}\paren{#1}}
+
+\newcommand{\prem}{\mathbb{P}}
+
+\newcommand{\U}{\mathbb{U}} 
+
+\renewcommand{\P}[1]{\mathscr{P}\paren{#1}} 
+\newcommand{\Pf}[1]{\mathscr{P}_f\paren{#1}} 
+\newcommand{\F}[2]{\mathscr{F}\paren{#1,#2}} 
+\newcommand{\V}[1]{\mathscr{V}\paren{#1}} 
+
+
+\newcommand{\Reel}[1]{\operatorname{Re}\paren{#1}}
+\newcommand{\Ima}[1]{\operatorname{Im}\paren{#1}}
+\newcommand{\Card}[1]{\operatorname{Card}\paren{#1}}
+\newcommand{\spec}[1]{\operatorname{Sp}\paren{#1}}
+
+
+
+\newcommand{\im}{\operatorname{Im}}
+
+
+\newcommand{\e}[1]{\mathrm{e}^{#1}}
+
+\newcommand{\fct}[1]{\operatorname{#1}}
+
+\renewcommand{\i}{i\mkern1mu}
+
+
+\renewcommand{\cal}[1]{\mathcal{#1}}
+
+
+
+
+
+\newcommand{\dcoords}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\tcoords}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+
+
+\renewcommand{\binom}[2]{\begin{pmatrix}#2\\#1\end{pmatrix}}
+
+
+\newcommand{\cqfd}{\text{ }\blacksquare}
+
+
+\newcommand{\pd}{\backslash}
+
+
+
+\newcommand{\divise}{\mid}
+\newcommand{\notdivise}{\nmid}
+
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+
+\newcommand{\tq}{\;\middle|\;}
+
+
+\newcommand{\scal}[2]{\langle #1 | #2  \rangle}
+\newcommand{\vecto}{\operatorname{_\wedge}}
+
+
+\newcommand{\ds}{\displaystyle}
+
+
+\newcommand{\notimp}{\centernot{\imp}}
+\newcommand{\notimpr}{\centernot{\impr}}
+\newcommand{\notiff}{\centernot{\iff}}
+
+\newcommand{\notsubset}{\centernot{\subset}}
+\newcommand{\notsupset}{\centernot{\supset}}
+
+
+\newcommand{\proba}[1]{\mathbb{P}\paren{#1}}
+\newcommand{\probacond}[2]{\mathbb{P}_{#2}\paren{#1}}
+
+
+\newcommand{\et}{\land}
+\newcommand{\ou}{\lor}
+\newcommand{\non}{\lnot}
+
+
+\newenvironment{tkz}
+{
+\begin{tikzpicture}
+}
+{
+\end{tikzpicture}
+}
+
+
+\newcommand{\tableauinit}[2]{\tkzTabInit{#1}{#2}}
+\newcommand{\tableausignes}[1]{\tkzTabLine{#1}}
+\newcommand{\tableauvariations}[1]{\tkzTabVar{#1}}
+
+
+\newcommand{\graphe}[1]{\Gamma_{#1}}
+\newcommand{\ensembledef}[1]{\mathcal{D}_{#1}}
+
+\renewcommand{\S}[1]{\mathfrak{S}_{#1}}
+\newcommand{\frakA}[1]{\mathfrak{A}_{#1}}
+
+\newcommand{\semihrule}{\rule{256.074815pt}{0.4pt}}
+
+\newcommand{\impdir}{\fbox{\(\imp\)}~}
+\newcommand{\imprec}{\fbox{\(\impr\)}~}
+\newcommand{\incdir}{\fbox{\(\subset\)}~}
+\newcommand{\increc}{\fbox{\(\supset\)}~}
+\newcommand{\leqbox}{\fbox{\(\leq\)}~}
+\newcommand{\geqbox}{\fbox{\(\geq\)}~}
+\newcommand{\unicite}{\fbox{unicité}~}
+\newcommand{\existence}{\fbox{existence}~}
+\newcommand{\analyse}{\fbox{analyse}~}
+\newcommand{\synthese}{\fbox{synthèse}~}
+\newcommand{\conclusion}{\fbox{conclusion}~}
+\newcommand{\wt}[1]{\widetilde{#1}}
+
+\renewcommand{\to}{\longrightarrow}
+\renewcommand{\mapsto}{\longmapsto}
+
+\newcommand{\fonction}[5]{\begin{array}[t]{cccc}#1 : & #2 & \to & #3 \\ & #4 & \mapsto & #5\end{array}}
+\newcommand{\fonctionlambda}[4]{\begin{array}[t]{ccc}#1 & \to & #2 \\ #3 & \mapsto & #4\end{array}}
+
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+
+\newcommand{\pinf}{+\infty}
+\newcommand{\minf}{-\infty}
+
+\newcommand{\id}[1]{\mathrm{Id}_{#1}}
+
+\renewcommand{\phi}{\varphi}
+\renewcommand{\epsilon}{\varepsilon}
+
+\newcommand{\ind}[1]{\mathds{1}_{#1}}
+
+\newcommand{\iR}{\i\R}
+
+\newcommand{\tcheby}[2]{T_{#1}\paren{#2}}
+\newcommand{\utcheby}[2]{U_{#1}\paren{#2}}
+
+\mathcode`l="8000
+\begingroup
+\makeatletter
+\lccode`\~=`\l
+\DeclareMathSymbol{\lsb@l}{\mathalpha}{letters}{`l}
+\lowercase{\gdef~{\ifnum\the\mathgroup=\m@ne \ell \else \lsb@l \fi}}
+\endgroup
+
+\newcommand{\ensvide}{\varnothing}
+
+\newcommand{\rond}{\circ}
+
+\newcommand{\union}{\cup}
+\newcommand{\inter}{\cap}
+\newcommand{\bigunion}{\bigcup}
+\newcommand{\biginter}{\bigcap}
+
+\newcommand{\imp}{\implies}
+\newcommand{\impr}{\impliedby}
+
+\newcommand{\excluant}{\setminus}
+
+\newcommand{\littletaller}{\mathchoice{\vphantom{\big|}}{}{}{}}
+\newcommand{\restr}[2]{{
+\left.\kern-\nulldelimiterspace#1\littletaller\right|_{#2}
+}}
+\newcommand{\corestr}[2]{{
+\left.\kern-\nulldelimiterspace#1\littletaller\right|^{#2}
+}}
+\newcommand{\restrbar}[1]{{
+\left.\kern-\nulldelimiterspace#1\littletaller\right|
+}}
+
+\newcommand{\rel}{\mathscr{R}}
+
+\newcommand{\classesdequiv}[1]{\nicefrac{#1}{\sim}}
+
+\newcommand{\majo}[1]{\mathrm{majorants}\paren{#1}}
+\newcommand{\mino}[1]{\mathrm{minorants}\paren{#1}}
+
+\newcommand{\ensdiv}[1]{\operatorname{div}\paren{#1}}
+
+\newcommand{\E}[1]{\times 10^{#1}}
+
+\setcounter{secnumdepth}{3}
+
+\newcommand{\guillemets}[1]{\og #1 \fg{}}
+
+\newcommand{\prim}{^{\,\prime}}
+\newcommand{\seconde}{^{\,\prime\prime}}
+
+\newcommand{\note}[1]{\textbf{\(\star\star\) #1 \(\star\star\)}}
+\newcommand{\cad}{c'est-à-dire }
+\newcommand{\Cad}{C'est-à-dire }
+\newcommand{\ssi}{si, et seulement si, }
+\newcommand{\Ssi}{Si, et seulement si, }
+\newcommand{\ie}{\textit{i.e.} }
+\newcommand{\cf}{\textit{cf.} }
+\newcommand{\Cf}{\textit{Cf.} }
+
+\usepackage{xparse}
+
+\NewDocumentCommand{\quantifs}{>{\SplitList{;}}m}{\ProcessList{#1}{\insertquantif}}
+\newcommand{\insertquantif}[1]{#1,\;\:}
+
+\DeclareDocumentCommand{\groupe}{m O{+}}{\paren{#1,#2}}
+\DeclareDocumentCommand{\anneau}{m O{+} O{\times}}{\paren{#1,#2,#3}}
+\DeclareDocumentCommand{\corps}{m O{+} O{\times}}{\paren{#1,#2,#3}}
+
+\DeclareDocumentCommand{\poly}{O{\K} O{X}}{#1\croch{#2}}
+\DeclareDocumentCommand{\polydeg}{O{\K} m O{X}}{#1_{#2}\croch{#3}}
+\DeclareDocumentCommand{\fracrat}{O{\K} O{X}}{#1\paren{#2}}
+
+\DeclareDocumentCommand{\M}{m O{\K}}{\mathcal{M}_{#1}\paren{#2}}
+\DeclareDocumentCommand{\sym}{m O{\K}}{\mathcal{S}_{#1}\paren{#2}}
+\DeclareDocumentCommand{\GL}{m O{\K}}{\operatorname{\cal{GL}}_{#1}\paren{#2}}
+\DeclareDocumentCommand{\SL}{m O{\K}}{\operatorname{\cal{SL}}_{#1}\paren{#2}}
+\DeclareDocumentCommand{\SO}{m O{\K}}{\operatorname{\cal{SO}}_{#1}\paren{#2}}
+\DeclareDocumentCommand{\A}{m O{\K}}{\operatorname{\cal{A}}_{#1}\paren{#2}}
+\DeclareDocumentCommand{\Ort}{m O{\K}}{\operatorname{\cal{O}}_{#1}\paren{#2}}
+
+
+\DeclareDocumentCommand{\Mat}{m m}{\underset{#1}{\operatorname{Mat}}\paren{#2}}
+\newcommand{\pass}[2]{\operatorname{Pass}\paren{#1\to#2}}
+
+\DeclareDocumentCommand{\contm}{O{\intervii{a}{b}} O{\K}}{\classe{0}_m\paren{#1,#2}}
+\DeclareDocumentCommand{\Esc}{O{\intervii{a}{b}} O{\K}}{\operatorname{Esc}\paren{#1,#2}}
+
+\DeclareDocumentCommand{\ker}{m}{\operatorname{Ker}\paren{#1}}
+\DeclareDocumentCommand{\End}{}{\operatorname{End}}
+
+
+
+\usepackage{witharrows}
+
+\newcommand{\croix}{^{\times}}
+
+\usepackage{polynom}
+
+\newcommand{\classe}[1]{\mathscr{C}^{#1}}
+\newcommand{\ensclasse}[3]{\classe{#1}\paren{#2,#3}}
+
+\newcommand{\deriv}[1]{^{\paren{#1}}}
+
+\usepackage{derivative}
+\derivset{\pdv}[delims-eval=.)]
+
+\DeclareMathOperator{\Arctan}{Arctan}
+\DeclareMathOperator{\Arcsin}{Arcsin}
+\DeclareMathOperator{\Arccos}{Arccos}
+\DeclareMathOperator{\cotan}{cotan}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\tth}{th} 
+\DeclareMathOperator{\sg}{sg}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\tr}{tr}
+
+\newcommand{\Hom}[2]{\operatorname{Hom}\paren{#1,#2}}
+\newcommand{\Pol}[2]{\operatorname{Pol}\paren{#1,#2}}
+\newcommand{\Aut}[1]{\operatorname{Aut}\paren{#1}}
+\DeclareDocumentCommand{\Vect}{O{} m}{\operatorname{Vect}_{#1}\paren{#2}}
+
+\newcommand{\diag}[1]{\operatorname{diag}\paren{#1}}
+
+\usepackage{abstract}
+\addto\captionsfrench{\renewcommand{\abstractname}{\Large Introduction}}
+
+\newcommand{\inv}{^{-1}}
+\newcommand{\etoile}{^{*}}
+
+\newcounter{orcounter}
+
+\newenvironment{orlist}
+{
+\begin{array}{|l}
+\setcounter{orcounter}{0}
+}
+{
+\end{array}
+}
+
+\newcommand{\oritem}[1]{
+\ifthenelse{\theorcounter<1}{}{\\ \text{ou} \\}#1\stepcounter{orcounter}
+}
+
+\NewDocumentCommand{\orenv}{>{\SplitList{\\}}m}{
+\begin{orlist}\ProcessList{#1}{\oritem}\end{orlist}}
+
+\newcounter{permuitemcounter}
+
+\newcommand{\permuitem}[1]{
+\ifthenelse{\thepermuitemcounter<1}{}{&}#1\stepcounter{permuitemcounter}}
+
+\NewDocumentCommand{\permu}{>{\SplitList{;}}m >{\SplitList{;}}m}{
+\begin{pmatrix}\setcounter{permuitemcounter}{0}\ProcessList{#1}{\permuitem} \\ \setcounter{permuitemcounter}{0}\ProcessList{#2}{\permuitem}\end{pmatrix}}
+
+\NewDocumentCommand{\cycle}{>{\SplitList{;}}m}{
+\begin{pmatrix}\setcounter{permuitemcounter}{0}\ProcessList{#1}{\permuitem}\end{pmatrix}}
+
+\usepackage{pgfplots}
+
+\DeclareDocumentCommand{\pgcd}{o o}{
+\IfNoValueTF{#1}{\operatorname{pgcd}}{\operatorname{pgcd}\paren{#1,#2}}
+}
+
+\DeclareDocumentCommand{\bezout}{o o}{
+\IfNoValueTF{#1}{\operatorname{bezout}}{\operatorname{bezout}\paren{#1,#2}}
+}
+
+
+\newcommand{\valp}[2]{v_{#1}\paren{#2}}
+
+\newcommand{\fami}[1]{\mathscr{#1}}
+
+\newcommand{\echange}{\leftrightarrow}
+
+\newcommand{\trans}[1]{#1^{\top}}
+
+\usepackage{mathdots}
+
+\DeclareDocumentCommand{\detb}{O{\fami{B}}}{{\det}_{#1}}
+
+\usepackage{cancel}
+
+\usepackage{nicematrix}
+
+\newcommand{\ps}[2]{\left\langle#1\tq#2\right\rangle}
+\newcommand{\ortho}{^{\perp}}
+
+\newcommand{\operp}{\mathrel{
+\begin{tikzpicture}[baseline=-0.25em]
+\draw (0,0) circle (0.45em);
+\draw (-0.38em,-0.25em) -- (0.38em,-0.25em);
+\draw (0,-0.25em) -- (0,0.45em);
+\end{tikzpicture}
+}
+}
+
+\usepackage{titletoc}
+\dottedcontents{section}[5.5em]{}{3.2em}{1pc}
+
+\newcommand{\bouleo}[2]{\mathbb{B}\paren{#1,#2}}
+\newcommand{\boulef}[2]{\mathbb{B}\prim\paren{#1,#2}}
+\newcommand{\sphere}[2]{\mathbb{S}\paren{#1,#2}}
+
+\newcommand{\vdv}[2]{\operatorname{D}_{#1}#2}
+
+\newcommand{\egqd}[1]{\underset{#1}{=}}
+\newcommand{\simqd}[1]{\underset{#1}{\sim}}
+
+\newcommand{\mediumrightarrow}{\,\begin{tikzpicture}\draw[->] (0, 0) -- (1, 0);\end{tikzpicture}\,}
+\newcommand{\tendqd}[1]{\underset{#1}{\mediumrightarrow}}
+
+\newcommand{\arr}[2]{A_{#2}^{#1}}
+\newcommand{\comb}[2]{C_{#2}^{#1}}
+
+\newcommand{\loiuniforme}[1]{\mathscr{U}\paren{#1}}
+\newcommand{\loibernoulli}[1]{\mathscr{B}\paren{#1}}
+\newcommand{\loibinomiale}[2]{\mathscr{B}\paren{#1,#2}}
+
+\newcommand{\esp}[1]{\operatorname{E}\paren{#1}}
+\newcommand{\vari}[1]{\operatorname{V}\paren{#1}}
+\newcommand{\cov}[2]{\operatorname{Cov}\paren{#1,#2}}
+\newcommand{\ecarttype}[1]{\sigma\paren{#1}}
+
+\renewcommand{\O}[1]{\mathscr{O}\paren{#1}}
+\renewcommand{\o}[1]{o\paren{#1}}
+
+\setcounter{MaxMatrixCols}{200}
+
+\newcommand{\Com}[1]{\operatorname{Com}\paren{#1}}
+
+\usepackage{microtype}
+
+\newcommand{\sig}[1]{\epsilon\paren{#1}}
+
+
+\begin{document}
+\renewcommand{\labelitemi}{\(\bullet\)}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+
+\everymath{\ds}
+
+\maketitle
+\chapter{Foundation}
+\section{Type Theory}
+\subsection{Type theory versus set theory}
+
+Alternative à ZF, Set theory à deux couches: logique du premier ordre et les systèmes d'axiomes, permet d'analyser les interactions entre set. Contrairement Type theory est son propre système déductif \(\to\) pas besoin de superstructure. Une notion basique \textit{types}.\\
+Les preuves sont confondues avec construction d'objet (facilement traduit en info ?). Dans Set theory une proposition peut être démontré ou réfuter, dans type theory, la preuve est l'appartenance à un type, et ça n'as pas de sens de considérer cette proposition comme fausse ou pas, car \(a : A\) est atomique. \\
+Différence dans l'égalité : Set theory \( \to \) relation entre deux objets (vrai ou pas) type theory : \(\to \) deux types d'égalité, l'égalité propositionnelle si \(a,b : A\) alors, il existe un type \(a =_{A} b\) et l'égalité de définition noté \(a \equiv b\)
+\subsection{Function Types}
+Utilisation du lambda calcul dans la représentation des fonctions \(\paren{\lambda \paren{x:A}.\phi}: A \to B\)
+Curryfication des fonctions (prénom de Curry  : Haskell !)
+\subsection{Universes and families}
+
+Univers est un type où ces éléments sont des types. Pas d'univers de tous les types à cause du paradoxe de Russell. On peut créer une hiérarchie d'univers \(\mathcal{U}_0:\cal{U}_1:\cal{U}_3:\dots\).
+Pour modéliser une collection de type variant sur un type \(A\) on utilise la fonction \(B : A \to \cal{U}\) ces fonctions sont appelées famille de type.
+\subsection{Dependent function type (\(\Pi\)-types)}
+
+Les éléments d'un \(\Pi\)-types sont des fonctions dont le type codomaine peut varier en fonction de l'élément du domaine duquel la fonction est appliqué. Exemple : Si \(A:\cal{U}\) et une famille \(B : A \to \cal{U}\) on peut construire une fonction type-dépendant \(\Pi_{\paren{x:A}} B(x) : \cal{U}\) \\
+Principe d'unicité : \(f \equiv \paren{\lambda x.f(x)}\) pour tout \(f : \Pi_{x:A}B(x)\). \\
+On peut définir des fonctions polymorphiques comme l'identité telle que \(id : \equiv \lambda\paren{A : \cal{U}}.\lambda \paren{x : A}.x\) ou encore swap : \[\fct{swap} : \Pi_{A:\cal{U}}\Pi_{B:\cal{U}}\Pi_{C:\cal{U}} \paren{A \to B \to C} \to \paren{B \to A \to C}\] définie par :\[\fct{swap}(A,B,C,g):= \lambda b . \lambda a.g(a)(b)\] 
+\subsection{Product Types}
+En set theory, quand on définit une fonction sur \(A \times B\), on suppose que les couples sont bien ordonnés, or en type theory, on suppose que la fonction est bien définie, ce qui permet de démontrer que les couples sont des paires.\\
+Pour définir les projecteurs, on peut passer par le récurseur pour les types produits définit par le type \[\fct{rec}_{A \times B} : \Pi_{C :\cal{U}}\paren{A \to B \to C} \to A \times B \to C\] avec la définition \[\fct{rec}_{A \times B} \paren{C,g,(a,b)}: \equiv g(a)(b)\] ce qui permet de dire \[pr_1 : \equiv \fct{rec}_{A\times B}(A,\lambda a.\lambda b.a)\]
+\[pr_2 : \equiv \fct{rec}_{A \times B} (B,\lambda a. \lambda b.b)\]
+
+On peut définir le récurseur à partir des projections :
+\[\fct{rec}_{A\times B} (C,g,d) : \equiv g(pr_1(d))(pr_2(d))\]
+Et il est évident que cette définition du récurseur est bien dérivé de cette définition. \\
+Si on a \[g : \Pi_{x:A}\Pi_{y:B}C((x,y))\] alors on peut définir \(f : \Pi_{x:A \times B} C(x)\) par \[f((x,y)): \equiv g(x)(y)\]
+Ce qui est utile pour prouver le principe d'unicité propositionnelle qui montre que tout élément de \(A \times B\) est égal à une paire.
+Via \[\fct{uniq}_{A \times B} : \Pi_{x : A \times B} \paren{\paren{pr_1 (x),pr_2(x)} =_{A \times B} x}\]
+Lorsque le type seras introduit sous-section 12 on pourra utiliser l'élément réflexif \(\fct{refl}_x : x =_{A} x\) pour tout \(x:A\) pour définir \[\fct{uniq}_{A \times B}: \equiv \fct{refl}{(a,b)}\]
+On peut aussi créer la fonction induction pour les types produits : \[\fct{ind}_{A \times B}  : \Pi_{C:A \times B \to \cal{U}}\paren{\Pi_{\paren{x:A}}\Pi_{\paren{y:B}}C((x,y))}\to\Pi_{x:A\times B}C(x)\]
+\[\fct{ind}_{A \times B} \paren{C,g,(a,b)}:\equiv g(a)(b)\]
+\subsection{Dependent pair types}
+
+\end{document} 
